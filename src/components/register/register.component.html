@@ -1,0 +1,115 @@
+@if (this.registerForm) {
+    <form [formGroup]="registerForm" class="center-form ">
+        <div class="example-container">
+            <mat-form-field>
+                <mat-label>User Name</mat-label>
+                <input matInput type="text" placeholder="user name" formControlName="userName" value="this.userName">
+            </mat-form-field>
+            @if (registerForm.controls['userName'].errors && registerForm.controls['userName'].touched) {
+            <ng-container>
+                @if (!registerForm.controls['userName'].errors['required'] && !registerForm.controls['userName'].errors['minLength']) {
+                <small
+                    style="color: red;">
+                    You must enter at least 3 characters
+                </small>
+            }
+            @if (registerForm.controls['userName'].errors['required']) {
+                <small style="color: red;">
+                    This field is required
+                </small>
+            }
+            </ng-container>
+        }
+            <br>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" placeholder="password" formControlName="password">
+                <button mat-icon-button matSuffix (click)="hide = !hide"
+                    [disabled]="registerForm.controls['password'].errors" [attr.aria-label]="'הסתר סיסמה'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            @if (registerForm.controls['password'].errors && registerForm.controls['password'].touched) {
+            <ng-container>
+                @if (!registerForm.controls['password'].errors['required'] && !registerForm.controls['password'].errors['minLength']) {
+                <small 
+                    style="color: red;">
+                    You must enter at least 3 characters
+                </small>
+            }
+            @if (registerForm.controls['password'].errors['required']) {
+                <small style="color: red;">
+                    This field is required
+                </small>
+            }
+            </ng-container>
+        }
+            <br>
+            <mat-form-field>
+                <mat-label>User Address</mat-label>
+                <input matInput type="text" placeholder="address" formControlName="address">
+            </mat-form-field>
+            @if (registerForm.controls['address'].errors && registerForm.controls['address'].touched) {
+            <ng-container>
+                @if (registerForm.controls['address'].errors['required']) {
+                <small style="color: red;">
+                    This field is required
+                </small>
+            }
+            </ng-container>
+        }
+            <br>
+            <mat-form-field>
+                <mat-label>User Email</mat-label>
+                <input matInput type="email" placeholder="email" formControlName="email">
+            </mat-form-field>
+            @if (registerForm.controls['email'].errors && registerForm.controls['email'].touched) {
+            <ng-container>
+                @if (!registerForm.controls['email'].errors['required']&& registerForm.controls['email'].errors['email']) {
+                <small
+                    style="color: red;">
+                    The email address is invalid
+                </small>
+            }
+            @if (registerForm.controls['email'].errors['required']) {
+                <small style="color: red;">
+                    This field is required
+                </small>
+            }
+            </ng-container>
+        }
+            <br>
+            @if (registerForm.controls['role'].value === 'teacher') {
+            <mat-form-field>
+                <mat-label>Course</mat-label>
+                <input matInput type="text" formControlName="course">
+                @if (registerForm.controls['course'].errors && registerForm.controls['course'].touched) {
+                <ng-container>
+                    @if (registerForm.controls['course'].errors['required']) {
+                    <small style="color: red;">
+                        This field is required
+                    </small>
+                }
+                </ng-container>
+            }
+            </mat-form-field>
+        }
+        <mat-form-field>
+            <mat-label>Role:</mat-label>
+            <mat-select id="role" formControlName="role" name="role">
+              <mat-option value="student">Student</mat-option>
+              <mat-option value="teacher">Teacher</mat-option>
+              <mat-option value="admin">Admin</mat-option>
+            </mat-select>
+        </mat-form-field>
+        </div>
+        <br />
+        <button mat-fab extended type="submit" (click)="registerUser()" [disabled]="!registerForm.valid">
+            <mat-icon>login</mat-icon>
+            Login
+        </button>
+        <!-- <a class="custom-link" (click)="lecturer()">To enter as a lecturer
+        </a> -->
+    </form>
+    }

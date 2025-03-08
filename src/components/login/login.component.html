@@ -1,0 +1,58 @@
+<div id="a">
+    @if (this.loginForm) {
+<form [formGroup]="loginForm" class="center-form ">
+    <div class="example-container">
+        <mat-form-field>
+            <mat-label>User Email</mat-label>
+            <input matInput type="email" placeholder="email" formControlName="email">
+        </mat-form-field>
+        @if (loginForm.controls['email'].errors && loginForm.controls['email'].touched) {
+        <ng-container>
+            @if (!loginForm.controls['email'].errors['required']&& loginForm.controls['email'].errors['email']) {
+            <small
+                style="color: red;">
+                The email address is invalid
+            </small>
+        }
+        @if (loginForm.controls['email'].errors['required']) {
+            <small style="color: red;">
+                This field is required
+            </small>
+        }
+        </ng-container>
+    }
+        <br>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="password" formControlName="password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [disabled]="loginForm.controls['password'].errors" [attr.aria-label]="'הסתר סיסמה'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        @if (loginForm.controls['password'].errors && loginForm.controls['password'].touched) {
+        <ng-container>
+            @if (!loginForm.controls['password'].errors['required'] && !loginForm.controls['password'].errors['minLength']) {
+            <small
+                style="color: red;">
+                You must enter at least 3 characters
+            </small>
+        }
+        @if (loginForm.controls['password'].errors['required']) {
+            <small style="color: red;">
+                This field is required
+            </small>
+        }
+        </ng-container>
+    }
+    </div>
+
+    <br />
+      
+    <button mat-fab extended type="submit" (click)="loginUser()" [disabled]="!loginForm.valid">
+        <mat-icon>login</mat-icon>
+        Login
+    </button>
+</form>
+}
+</div>

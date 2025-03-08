@@ -1,0 +1,68 @@
+<div class="center-container">
+    <div class="filter-container">
+        <mat-form-field>
+        <mat-label>Choose Category</mat-label>
+        <mat-select #categorySelect (selectionChange)="onCategorySelectionChange($event)" style="width: 200px;">
+          <mat-select-trigger>
+            @if (selectedCategory) {
+            <span>{{ selectedCategory.name }}</span>
+            }
+            @else{
+              <ng-template #defaultOption>--</ng-template>
+            }
+          </mat-select-trigger>
+          <mat-option>--</mat-option>
+          @for (cat of categories; track cat) {
+            <mat-option [value]="cat">{{ cat.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- <div class="filter-container">
+        <mat-form-field>
+            <input matInput type="text" placeholder="Enter title of course" #courseName (input)="filter()"
+                style="width: 200px;" />
+        </mat-form-field>
+    </div>
+    <div class="filter-container">
+        <mat-radio-group (change)="onSelectionChange($event)">
+            <mat-radio-button [value]="1">Frontal</mat-radio-button>
+            <mat-radio-button [value]="2">Digital</mat-radio-button>
+        </mat-radio-group>
+    </div> -->
+</div>
+
+<div class="cards">
+    @for (course of filteredCourses; track $index) {
+    <mat-card class="example-card">
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>{{course?.title}}</mat-card-title>
+            <!-- <mat-card-subtitle>{{categories[course.categoryId].name}}
+                <mat-icon>{{categories[course.categoryId].iconRouting}}</mat-icon>
+                <mat-icon>{{course.learningType|icon }}</mat-icon>
+            </mat-card-subtitle> -->
+        </mat-card-header>
+        <!-- <img mat-card-image src={{course?.image}}> -->
+        <!-- ///--- -->
+        <p [class]="getCssClass(this.courses)">
+            {{ course.beginDate }}
+        </p>
+        <mat-card-actions>
+        <mat-icon>arrow_forward</mat-icon>
+        <button mat-button (click)="showDetailes(course)">More Detailes</button>
+       @if(!this.user.isLecturer){
+        <mat-icon>add</mat-icon>
+        <button mat-button (click)="joinToCourse(currentUserId,token)">Join To Course</button>
+        <mat-icon>remove</mat-icon>
+        <button mat-button (click)="leaveCourse(currentUserId,token)">Leave Course</button>
+       }
+       <mat-icon>edit</mat-icon>
+        <button mat-button (click)="editCourse(course)" [disabled]="!this.user.isLecturer">Edit</button>
+        @if(this.user.isLecturer){
+        <mat-icon>delete</mat-icon>
+        <button mat-button (click)="deleteCourse(course.id)" >Delete</button>
+        }</mat-card-actions>
+    </mat-card>
+    }
+</div>

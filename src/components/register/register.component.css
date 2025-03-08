@@ -1,0 +1,18 @@
+.center-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+.custom-link {
+    color: #007bff; /* צבע כחול */
+    text-decoration: none; /* מוחק קו תחתון */
+    font-weight: bold; /* מעט מודגש */
+    cursor: pointer; /* מראה סמן יד */
+  }
+  
+  .custom-link:hover {
+    color: #0056b3; /* צבע כחול כהה כאשר העכבר על הלינק */
+  }
+  

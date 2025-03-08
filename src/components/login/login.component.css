@@ -1,0 +1,14 @@
+.center-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width: max-content;
+    height: max-content;
+}
+#a
+{
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-around;
+}
