@@ -3,17 +3,17 @@
         <div class="example-container">
             <mat-form-field>
                 <mat-label>User Name</mat-label>
-                <input matInput type="text" placeholder="user name" formControlName="userName" value="this.userName">
+                <input matInput type="text" placeholder="user name" formControlName="name" value="this.name">
             </mat-form-field>
-            @if (registerForm.controls['userName'].errors && registerForm.controls['userName'].touched) {
+            @if (registerForm.controls['name'].errors && registerForm.controls['name'].touched) {
             <ng-container>
-                @if (!registerForm.controls['userName'].errors['required'] && !registerForm.controls['userName'].errors['minLength']) {
+                @if (!registerForm.controls['name'].errors['required'] && !registerForm.controls['name'].errors['minLength']) {
                 <small
                     style="color: red;">
                     You must enter at least 3 characters
                 </small>
             }
-            @if (registerForm.controls['userName'].errors['required']) {
+            @if (registerForm.controls['name'].errors['required']) {
                 <small style="color: red;">
                     This field is required
                 </small>

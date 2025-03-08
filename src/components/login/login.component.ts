@@ -9,6 +9,7 @@ import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { userInfo } from 'node:os';
 
 @Component({
   selector: 'app-login',
@@ -47,36 +48,45 @@ export class LoginComponent {
   }
   loginUser(){
     this.user=this.loginForm.value;
-
     console.log(this.loginForm.value);
     this._userService.login({email: this.user.email||"", password: this.user.password||"" })
     .subscribe((res:any)=>{
       console.log(res);
-      
-      // if(res.status===200){
+      if(res){
+        const userId = res.userId;
+        this._userService.getUserInfo(userId).subscribe((userInfo: User)=>{
+          console.log(userInfo);
+          
+          this.user = userInfo;
+          console.log(this.user);
+          
+          sessionStorage.setItem("user", JSON.stringify(userInfo));
+          Swal.fire({
+            title: `Welcome! ${this.user.name}`,
+            text: "You've logged in successfully!",
+            icon: "success"
+          });
+          // sessionStorage.setItem("IsLecturer", JSON.stringify(this.user?.isLecturer || false))
+          this.router.navigate(['course/allCourses'])
+          console.log("Logged in successfully");
+          
+        }, 
+      err=>{
+        console.error(err);
         Swal.fire({
-          title: `Welcome! ${this.user.userName}`,
-          text: "You've logged in successfully!",
-          icon: "success"
+          title: `Error fetching user info`,
+          text: "Could not retrieve user information.",
+          icon: "error"
         });
-        // sessionStorage.setItem("IsLecturer", JSON.stringify(this.user?.isLecturer || false))
-        sessionStorage.setItem("user", JSON.stringify(this.user))
-        this.router.navigate(['course/allCourses'])
-        console.log("Logged in successfully");
-        
-      // }
-      // else if (res.status===400){
-      //   console.log("Invalid credentials");
-      //   Swal.fire({
-      //     title: `Wrong Password!!!`,
-      //     icon: "error",
-      //     timer: 1000
-      //   });
-      // }
-      // else{
-      //   sessionStorage.setItem("user", JSON.stringify(this.user))
-      //   this.router.navigate(['/auth/register', { user: this.user.userName }])
-      // }
-    },err=>console.log(err))
-  }
+      });
+      }
+    },err=>{
+        console.error(err);
+      Swal.fire({
+        title: `Login Failed`,
+        text: "Invalid credentials or other error.",
+        icon: "error"
+      });
+      });
+    }
 }

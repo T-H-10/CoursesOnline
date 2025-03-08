@@ -43,17 +43,17 @@ export class RegisterComponent implements OnInit {
   public get user(): User {
     return this._user;
   }
-  userName: string = "";
+  name: string = "";
   public set user(value: User) {
     const u = sessionStorage.getItem('user');
     if (u) {
       const us = JSON.parse(u);
-      this.userName = us.userName;
+      this.name = us.name;
     }
     this._user = value;
     if (this.user != undefined) {
       this.registerForm = new FormGroup({
-        userName: new FormControl(this.userName, [Validators.required, Validators.minLength(3)]),
+        name: new FormControl(this.name, [Validators.required, Validators.minLength(3)]),
         address: new FormControl(this.user.address, [Validators.required]),
         email: new FormControl(this.user.email, [Validators.required, Validators.email]),
         password: new FormControl(this.user.password, [Validators.required, Validators.minLength(3)]),
@@ -72,13 +72,13 @@ export class RegisterComponent implements OnInit {
         if (res == undefined) {
           Swal.fire({
             title: `Oops`,
-            text: "Username in use, please enter another name!",
+            text: "name in use, please enter another name!",
             icon: "error"
           });          
         }
         else {
           Swal.fire({
-            title: `Hi ${this.user?.userName}`,
+            title: `Hi ${this.user?.name}`,
             text: "You have successfully registered!!!",
             icon: "success"
           });

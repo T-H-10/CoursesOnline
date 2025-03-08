@@ -14,7 +14,7 @@ export class UserService {
 
   register(data: any): Observable<boolean> {
     return this._http.post<boolean>(this.apiURL + '/auth/register', {
-      name: data.userName,
+      name: data.name,
       email: data.email,
       password: data.password,
       role: data.role
@@ -25,9 +25,9 @@ export class UserService {
       }
       ));
   }
+
   login(credentials: { email: string; password: string }): Observable<any> {
     console.log(credentials);
-    
     return this._http.post(this.apiURL + '/auth/login', credentials).pipe(
       tap((res: any) => {
         sessionStorage.setItem('token', res.token);
@@ -36,12 +36,12 @@ export class UserService {
       tap((res: any) => console.log(res))
     );
   }
-  // getUsersFromServer(token: string): Observable<User[]> {
-  //   const headers = new HttpHeaders({
-  //     'Authorization': `Bearer ${token}`
-  //   });
-  //   console.log(headers);
+  getUserInfo(userId: string): Observable<User> {
+    const token = sessionStorage.getItem('token'); // הנח שה-Token נשמר ב-sessionStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this._http.get<User>(`${this.apiURL}/users/${userId}`,{headers}); // שימוש במסלול הקיים
+  }
 
-  //   return this._http.get<User[]>(`${this.apiURL}/auth/login`, { headers });
-  // }
 }
